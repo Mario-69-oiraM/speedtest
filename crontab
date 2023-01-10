@@ -1,0 +1,2 @@
+# basic 
+*/31 * * * * bash /app/runSpeedtest.sh

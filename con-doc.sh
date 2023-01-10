@@ -1,1 +1,1 @@
- docker exec -d speedtest bash
+docker exec -it speedtest bash

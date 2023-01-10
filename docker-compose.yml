@@ -2,10 +2,19 @@
 version: "3"
 services:
   speedtest:
-    build: ./Dockerfile
-    ports:
-      - "8080:80"
-  
+    build:
+      context: .
+      dockerfile: ./speedtest-Dockerfile
+    volumes:
+      - '$PWD/speedtestData:/data'
+    # ports:
+    #   - "8080:80"
+#networks:
+#     inflixdb:
+#         driver: bridge
+  #volumes:
+  #  - 'speedest-json:/var/lib/speedest-json'
+  #  - './data/json'
 
 #        build:
             # context: ./docker/8.1

@@ -1,44 +1,52 @@
-FROM python:3.8
+FROM influx 
+
+docker run -p 8080:8086 \
+-V $PWD/config:/etc/influxdb2
+-V $PWD/data:/var/lib/influxdb2
+--net influxdb
+--name influxdb
+-d\
+> influxdb
 
 # set the working directory
-WORKDIR /app
+#WORKDIR /app
 
 # install dependencies
-RUN mkdir /data
+#RUN mkdir /data
 #python installs 
 #COPY ./app/requirements.txt /app
 #RUN /usr/local/bin/python -m pip install --upgrade pip
 #RUN pip install --no-cache-dir --upgrade -r requirements.txt --target=/app/appRequirements
 #ENV PYTHONPATH=/app/appRequirements
 
-RUN apt-get update && apt-get -y install cron
-RUN apt-get update && apt-get -y install nano
-RUN apt-get install curl
-RUN curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | bash
-RUN apt-get install speedtest
+#RUN apt-get update && apt-get -y install cron
+#RUN apt-get update && apt-get -y install nano
+#RUN apt-get install curl
+#RUN curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | bash
+#RUN apt-get install speedtest
 #RUN crontab -l | { cat; echo "*/31 * * * * bash ./app/runSpeedtest.sh"; } | crontab -
 
 ENV TZ=America/Los_Angeles
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # copy the scripts to the folder
-COPY ./app/. /app
-COPY . /app
+#COPY ./app/. /app
+#COPY . /app
 # Give execution rights on the cron scripts
-RUN chmod +x /app/runSpeedtest.sh
-RUN ./runSpeedtest.sh
+#RUN chmod +x /app/runSpeedtest.sh
+#RUN ./runSpeedtest.sh
 
 # Adding crontab to the appropiate location
-ADD crontab /etc/cron.d/my-cron-file
+#ADD crontab /etc/cron.d/my-cron-file
 
 # Giving executable permission to crontab file
-RUN chmod 0644 /etc/cron.d/my-cron-file
+#RUN chmod 0644 /etc/cron.d/my-cron-file
 
 # Running crontab
-RUN crontab /etc/cron.d/my-cron-file
+#RUN crontab /etc/cron.d/my-cron-file
 
 # Creating entry point for cron 
-ENTRYPOINT ["cron", "-f"]
+#ENTRYPOINT ["cron", "-f"]
 
 
 

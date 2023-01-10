@@ -130,5 +130,4 @@ dmypy.json
 
 
 #data files 
-*.json
 .data

@@ -26,7 +26,6 @@ COPY ./app/. /app
 COPY . /app
 # Give execution rights on the cron scripts
 RUN chmod +x /app/runSpeedtest.sh
-RUN ./runSpeedtest.sh
 
 # Adding crontab to the appropiate location
 ADD crontab /etc/cron.d/my-cron-file
@@ -39,6 +38,7 @@ RUN crontab /etc/cron.d/my-cron-file
 
 # Creating entry point for cron 
 ENTRYPOINT ["cron", "-f"]
+#RUN ./runSpeedtest.sh
 
 
 

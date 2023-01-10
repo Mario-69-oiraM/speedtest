@@ -3,12 +3,17 @@ version: "3"
 services:
   speedtest:
     build:
-      context: .
+      context: ./speedtest/
       dockerfile: ./speedtest-Dockerfile
     volumes:
       - '$PWD/speedtestData:/data'
-    # ports:
-    #   - "8080:80"
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - '$PWD/speedtestData:/data'
+
 #networks:
 #     inflixdb:
 #         driver: bridge

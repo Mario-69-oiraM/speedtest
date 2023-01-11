@@ -1,0 +1,51 @@
+FROM ubuntu
+
+# set the working directory
+WORKDIR /app
+
+# install dependencies
+#RUN mkdir /data
+#python installs 
+#COPY ./app/requirements.txt /app
+#RUN /usr/local/bin/python -m pip install --upgrade pip
+#RUN pip install --no-cache-dir --upgrade -r requirements.txt --target=/app/appRequirements
+#ENV PYTHONPATH=/app/appRequirements
+
+RUN apt-get update && apt-get -y install cron
+RUN apt-get update && apt-get -y install nano
+RUN apt-get install -y apt-transport-https
+RUN apt-get install -y software-properties-common wget
+RUN wget -q -O /usr/share/keyrings/grafana.key https://apt.grafana.com/gpg.key
+RUN echo "deb [signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com stable main" | tee -a /etc/apt/sources.list.d/grafana.list
+RUN apt-get update && apt-get -y install grafana
+#RUN systemctl daemon-reload
+
+#RUN apt-get update && apt-get install curl
+#RUN curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | bash
+#RUN apt-get install speedtest
+#RUN crontab -l | { cat; echo "*/31 * * * * bash ./app/runSpeedtest.sh"; } | crontab -
+
+ENV TZ=America/Los_Angeles
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# copy the scripts to the folder
+
+#COPY ./app/. /app
+#COPY . /app
+# Give execution rights on the cron scripts
+#RUN chmod +x /app/runSpeedtest.sh
+
+# Adding crontab to the appropiate location
+#ADD crontab /etc/cron.d/my-cron-file
+# Giving executable permission to crontab file
+#RUN chmod 0644 /etc/cron.d/my-cron-file
+
+# Running crontab
+#RUN crontab /etc/cron.d/my-cron-file
+
+# Creating entry point for cron 
+#ENTRYPOINT ["cron", "-f"]
+#RUN ./runSpeedtest.sh
+
+
+
